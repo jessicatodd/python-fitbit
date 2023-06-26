@@ -619,7 +619,7 @@ class Fitbit(object):
         )
         return self.make_request(url)
 
-    def activities_mylist(self, before_date=None, after_date=None, sort='asc', offset=0, limit=100):
+    def activities_mylist(self, user_id=None, before_date=None, after_date=None, sort='asc', offset=0, limit=100):
         """
         * https://dev.fitbit.com/docs/activity/#get-activity-log-list
         """
@@ -645,6 +645,15 @@ class Fitbit(object):
                 offset=offset,
                 limit=limit
             )
+
+        return self.make_request(url)
+
+    def activities_day(self, user_id=None, date=None):
+
+        url = "{0}/{1}/user/{2}/activities/date/{date}.json".format(
+            *self._get_common_args(user_id),
+            date=date
+        )
 
         return self.make_request(url)
 
