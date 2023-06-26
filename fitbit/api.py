@@ -619,6 +619,36 @@ class Fitbit(object):
         )
         return self.make_request(url)
 
+    def activities_mylist(self, before_date=None, after_date=None, sort='asc', offset=0, limit=100):
+        """
+        * https://dev.fitbit.com/docs/activity/#get-activity-log-list
+        """
+        if before_date and after_date:
+            raise ValueError("Cannot assign both a before and after date.")
+        if not before_date and not after_date:
+            raise ValueError("Please assign either a before OR after date.")
+
+
+        if before_date:
+            url = "{0}/{1}/user/{2}/activities/list.json?beforeDate={before_date}&sort={sort}&offset={offset}&limit={limit}".format(
+                *self._get_common_args(user_id),
+                before_date=before_date,
+                sort=sort,
+                offset=offset,
+                limit=limit
+            )
+        else:
+            url = "{0}/{1}/user/{2}/activities/list.json?afterDate={after_date}&sort={sort}&offset={offset}&limit={limit}".format(
+                *self._get_common_args(user_id),
+                after_date=after_date,
+                sort=sort,
+                offset=offset,
+                limit=limit
+            )
+
+        return self.make_request(url)
+
+
     def _food_stats(self, user_id=None, qualifier=''):
         """
         This builds the convenience methods on initialization::
